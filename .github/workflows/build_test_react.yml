@@ -10,8 +10,8 @@ jobs:
 
       - name: Install and Build 🔧
         run: |
-          npm ci
-          npm run build
+          yarn install --immutable --immutable-cache --check-cache
+          yarn build
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.3.0
