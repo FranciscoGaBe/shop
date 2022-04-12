@@ -13,7 +13,7 @@ describe('MainLayout', () => {
 
   describe('Header', () => {
     it('has a header element', () => {
-      expect(screen.getByRole('banner')).toBeInTheDocument();
+      expect(screen.getByRole('banner')).toBeTruthy();
     });
     it('has logo', () => {
       const img = screen.getByRole('img') as HTMLImageElement;
@@ -23,19 +23,19 @@ describe('MainLayout', () => {
 
   describe('Navigation menu', () => {
     it('has a navigation menu', () => {
-      expect(screen.getByRole('navigation')).toBeInTheDocument();
+      expect(screen.getByRole('navigation')).toBeTruthy();
     });
   });
 
   describe('Footer', () => {
     it('displays copyright by', () => {
-      expect(screen.getByText('© Francisco Garrido Bear')).toBeInTheDocument();
+      expect(screen.getByText('© Francisco Garrido Bear')).toBeTruthy();
     });
     it('has a link to Github', () => {
-      expect(screen.getByRole('link', { name: 'github' })).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: 'github' })).toBeTruthy();
     });
     it('has a link to LinkedIn', () => {
-      expect(screen.getByRole('link', { name: 'linkedin' })).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: 'linkedin' })).toBeTruthy();
     });
   });
 });
