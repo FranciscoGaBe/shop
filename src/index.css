@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  min-width: 0;
+  min-height: 0;
+}
+
+html {
+  background-color: rgb(243 244 246);
+}
+
 html, body, #root {
   height: 100%;
 }
