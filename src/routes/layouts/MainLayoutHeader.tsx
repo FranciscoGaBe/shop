@@ -16,18 +16,7 @@ const MainLayoutHeader: React.FC = () => {
 
   return (
     <header className="bg-rose-700 h-16 flex sticky top-0 shadow shadow-rose-700/80 z-20">
-      <div className="w-2/5 flex-shrink-0">
-        &nbsp;
-      </div>
-      <div className="flex-shrink-0 w-1/5 flex justify-center relative">
-        <Link
-          to="/"
-          className="w-20 max-w-full aspect-square rounded-full bg-rose-700 absolute shadow shadow-rose-800"
-        >
-          <img src={logo} alt="Logo" />
-        </Link>
-      </div>
-      <div className="w-2/5 flex-shrink-0 text-white flex items-center justify-end px-4 md:px-8">
+      <div className="w-2/5 flex-shrink-0 text-white flex items-center justify-start px-4 md:px-8">
         <button
           type="button"
           className="md:hidden border-2 border-white rounded px-2"
@@ -67,6 +56,17 @@ const MainLayoutHeader: React.FC = () => {
             </ul>
           </nav>
         </div>
+      </div>
+      <div className="flex-shrink-0 w-1/5 flex justify-center relative">
+        <Link
+          to="/"
+          className="w-20 max-w-full aspect-square rounded-full bg-rose-700 absolute shadow shadow-rose-800"
+        >
+          <img src={logo} alt="Logo" />
+        </Link>
+      </div>
+      <div className="w-2/5 flex-shrink-0">
+        &nbsp;
       </div>
     </header>
   );
