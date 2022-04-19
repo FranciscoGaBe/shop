@@ -9,7 +9,7 @@ const links = [
 
 const MainLayoutFooter: React.FC = () => (
   <footer className="bg-rose-700 text-white fixed left-0 right-0 bottom-0 h-16">
-    <div className="h-full flex items-center justify-between px-8 relative">
+    <div className="h-full flex items-center justify-between px-4 md:px-8 relative">
       <p className="font-semibold">© Francisco Garrido Bear</p>
       <ul className="flex gap-8 font-bold">
         {
