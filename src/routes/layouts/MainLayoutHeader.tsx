@@ -1,4 +1,6 @@
-import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBars, faCartShopping, faTimes, faUser,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
@@ -65,8 +67,30 @@ const MainLayoutHeader: React.FC = () => {
           <img src={logo} alt="Logo" />
         </Link>
       </div>
-      <div className="w-2/5 flex-shrink-0">
-        &nbsp;
+      <div className="w-2/5 flex-shrink-0 flex items-center justify-end gap-4 px-4 md:px-8">
+        <button
+          type="button"
+          className={[
+            'text-white border-2 border-white rounded-full h-10 w-10',
+            'shadow shadow-rose-800 md:hidden',
+          ].join(' ')}
+        >
+          <FontAwesomeIcon icon={faUser} />
+        </button>
+        <p className="hidden md:block text-white">
+          Welcome,
+          {' '}
+          <b>User</b>
+        </p>
+        <button
+          type="button"
+          className={[
+            'text-white border-2 border-white rounded-full h-10 w-10',
+            'shadow shadow-rose-800',
+          ].join(' ')}
+        >
+          <FontAwesomeIcon icon={faCartShopping} />
+        </button>
       </div>
     </header>
   );
