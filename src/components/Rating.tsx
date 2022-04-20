@@ -21,7 +21,7 @@ const Rating: React.FC<Props> = ({ rate }) => {
         <FontAwesomeIcon className="text-transparent" icon={faStar} />
         <div className="absolute inset-0 overflow-hidden" style={{ width: `${percentage}%` }}>
           <FontAwesomeIcon
-            className="text-yellow-300 absolute"
+            className="text-yellow-300 absolute left-0"
             icon={faStar}
           />
         </div>
