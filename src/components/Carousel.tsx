@@ -1,5 +1,6 @@
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 import { Product } from '../services/types';
 import ProductBox from './ProductBox';
@@ -19,9 +20,9 @@ const Carousel: React.FC<Props> = ({ products }) => {
   ];
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center px-2">
       <button
-        className="shrink-0 w-10 h-10"
+        className="shrink-0 w-10 h-10 bg-rose-700/70 rounded-full text-white hover:bg-rose-700"
         type="button"
         title="previous"
         onClick={() => { setShow((show - 1 + len) % len); }}
@@ -31,20 +32,32 @@ const Carousel: React.FC<Props> = ({ products }) => {
       <div className="grow flex justify-center items-center gap-4">
         {
           showProducts.map(({ current, product }) => (
-            <div
+            <motion.div
               key={product.id}
-              className="w-2/6"
+              initial={{
+                opacity: 0,
+                scale: 0.3,
+              }}
+              animate={{
+                opacity: current ? 1 : 0.6,
+                scale: current ? 1 : 0.6,
+              }}
+              exit={{
+                opacity: 0,
+                scale: 0.3,
+              }}
+              className={`${current ? 'shrink-0 w-3/4' : 'hidden sm:block'} sm:w-1/3`}
               aria-current={current}
               role="figure"
               title={product.title}
             >
               <ProductBox product={product} />
-            </div>
+            </motion.div>
           ))
         }
       </div>
       <button
-        className="shrink-0 w-10 h-10"
+        className="shrink-0 w-10 h-10 bg-rose-700/70 rounded-full text-white hover:bg-rose-700"
         type="button"
         title="next"
         onClick={() => { setShow((show + 1) % len); }}
