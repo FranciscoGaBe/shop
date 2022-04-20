@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Carousel from '../components/Carousel';
+import Heading from '../components/Heading';
+import SectionElement from '../components/SectionElement';
 import { useGetProductsQuery } from '../services/shop';
 import { Product } from '../services/types';
 
@@ -23,11 +25,14 @@ const HomePage: React.FC = () => {
   }, [data]);
 
   return (
-    <div className="py-8">
+    <div>
       { isError && <p>Something went wrong...</p> }
       { isLoading && <p>Loading...</p> }
-      { corouselProducts.length && (
-        <Carousel products={corouselProducts} />
+      { !!corouselProducts.length && (
+        <SectionElement className="bg-slate-300">
+          <Heading level={2}>Best Sellers</Heading>
+          <Carousel products={corouselProducts} />
+        </SectionElement>
       ) }
     </div>
   );
