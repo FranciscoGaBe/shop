@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import Carousel from '../components/Carousel';
 import Heading from '../components/Heading';
 import Loading from '../components/Loading';
@@ -6,6 +7,7 @@ import Error from '../components/Error';
 import SectionElement from '../components/SectionElement';
 import { useGetProductsQuery } from '../services/shop';
 import { Product } from '../services/types';
+import ProductsDisplayer from '../components/ProductsDisplayer';
 
 const HomePage: React.FC = () => {
   const { data, isLoading, isError } = useGetProductsQuery();
@@ -34,6 +36,14 @@ const HomePage: React.FC = () => {
         <SectionElement className="bg-slate-300">
           <Heading level={2}>Best Sellers</Heading>
           <Carousel products={corouselProducts} />
+        </SectionElement>
+      ) }
+      { data && (
+        <SectionElement>
+          <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }}>
+            <Heading level={2}>All Products</Heading>
+            <ProductsDisplayer products={data} perPage={8} />
+          </motion.div>
         </SectionElement>
       ) }
     </div>
