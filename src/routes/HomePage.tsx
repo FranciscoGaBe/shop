@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import { faGift } from '@fortawesome/free-solid-svg-icons';
 import Carousel from '../components/Carousel';
 import Heading from '../components/Heading';
 import Loading from '../components/Loading';
@@ -92,6 +93,18 @@ const HomePage: React.FC = () => {
           <Carousel products={corouselProducts} />
         </SectionElement>
       ) }
+      <div
+        className="rounded-lg overflow-hidden p-8 relative bg-rose-800"
+      >
+        <div className="absolute inset-0 flex items-center justify-center text-8xl">
+          <FontAwesomeIcon className="text-rose-500" icon={faGift} />
+        </div>
+        <div className="text-white text-center text-2xl relative">
+          <span className="font-semibold">Free shipping for orders over</span>
+          {' '}
+          <span className="font-black">40 €</span>
+        </div>
+      </div>
       { data && (
         <SectionElement className="bg-white rounded-lg overflow-hidden">
           <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }}>
