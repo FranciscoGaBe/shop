@@ -31,7 +31,7 @@
     "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
     "eject": "react-scripts eject"
   },
-  "homepage": "./",
+  "homepage": "https://franciscogabe.github.io/shop/",
   "browserslist": {
     "production": [
       ">0.2%",
