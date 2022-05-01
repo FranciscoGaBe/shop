@@ -86,7 +86,7 @@ const HomePage: React.FC = () => {
           <Heading level={2}>Best Sellers</Heading>
           <Carousel products={carouselProducts} />
         </SectionElement>
-        <div
+        <SectionElement
           className="rounded-lg overflow-hidden p-8 relative bg-rose-800"
         >
           <div className="absolute inset-0 flex items-center justify-center text-8xl">
@@ -97,7 +97,7 @@ const HomePage: React.FC = () => {
             {' '}
             <span className="font-black">40 €</span>
           </div>
-        </div>
+        </SectionElement>
         <SectionElement className="bg-white rounded-lg overflow-hidden">
           <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }}>
             <Heading level={2}>All Products</Heading>
