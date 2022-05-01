@@ -34,7 +34,7 @@ const ProductPage: React.FC = () => {
               <span className="ml-2">Go back</span>
             </button>
             <div className="flex flex-wrap">
-              <div className="w-full md:w-1/3 p-4 bg-white rounded-lg">
+              <div className="w-full md:w-1/3 p-4 bg-white rounded-lg flex items-center">
                 <img src={data.image} alt={data.title} />
               </div>
               <div className="w-full md:w-2/3 p-4">
