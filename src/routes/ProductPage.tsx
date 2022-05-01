@@ -1,5 +1,7 @@
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Heading from '../components/Heading';
 import LoadingHandler from '../components/LoadingHandler';
 import Rating from '../components/Rating';
@@ -12,12 +14,25 @@ const ProductPage: React.FC = () => {
   const { id } = useParams();
   const { data, isLoading, isError } = useGetProductQuery(id as string);
   const [quantity, setQuantity] = useState(1);
+  const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1);
+  };
 
   return (
     <LoadingHandler isLoading={isLoading} isError={isError}>
       { data && (
         <div className="p-1">
           <SectionElement className="overflow-hidden">
+            <button
+              type="button"
+              className="font-bold text-neutral-500 px-4 py-2"
+              onClick={() => goBack()}
+            >
+              <FontAwesomeIcon icon={faChevronLeft} />
+              <span className="ml-2">Go back</span>
+            </button>
             <div className="flex flex-wrap">
               <div className="w-full md:w-1/3 p-4 bg-white rounded-lg">
                 <img src={data.image} alt={data.title} />
