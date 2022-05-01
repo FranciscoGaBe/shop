@@ -5,8 +5,6 @@ import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { faGift } from '@fortawesome/free-solid-svg-icons';
 import Carousel from '../components/Carousel';
 import Heading from '../components/Heading';
-import Loading from '../components/Loading';
-import Error from '../components/Error';
 import SectionElement from '../components/SectionElement';
 import { useGetProductsQuery } from '../services/shop';
 import { Product } from '../services/types';
