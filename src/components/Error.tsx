@@ -7,6 +7,8 @@ const Error: React.FC = () => {
   return (
     <div
       className="fixed inset-0 flex items-center justify-center bg-rose-800 z-10"
+      role="figure"
+      aria-label="error"
     >
       <div className="text-center">
         <p className="text-4xl font-semibold mb-8 text-white px-2">
