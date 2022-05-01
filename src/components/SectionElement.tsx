@@ -18,7 +18,7 @@ const SectionElement: React.FC<HTMLProps<HTMLElement>> = ({ className, children 
         viewport={{ once: true }}
         transition={{ duration: 0.3 }}
         layout
-        className="max-w-5xl mx-auto text-center"
+        className="max-w-5xl mx-auto"
       >
         { children }
       </motion.div>

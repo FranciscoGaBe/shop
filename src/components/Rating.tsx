@@ -37,7 +37,7 @@ const Rating: React.FC<Props> = ({ rate }) => {
 
   return (
     <div
-      className="flex items-center gap-2"
+      className="inline-flex items-center gap-2"
       role="img"
       aria-label={`Rating: ${rate} out of 5`}
     >
