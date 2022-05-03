@@ -117,6 +117,7 @@ const Filters: React.FC<Props> = ({ filters, onSubmit }) => {
           key={filter.name}
           className={`
             border-2 rounded border-rose-400 focus:border-rose-700 bg-white outline-none
+            text-rose-800 font-medium placeholder:font-normal
             px-1 py-0.5 mr-4
             transition-all duration-200 ease-in-out
           `}
