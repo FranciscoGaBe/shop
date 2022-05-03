@@ -60,12 +60,10 @@ describe('Filters', () => {
     render(<Filters filters={filters} onSubmit={fn} />);
     const button = screen.getByRole('button', { name: 'Apply filters' });
     fireEvent.click(button);
-    expect(fn).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        Options: '2',
-        Description: 'test',
-      }),
-    );
+    expect(fn).toHaveBeenLastCalledWith({
+      Options: '2',
+      Description: 'test',
+    });
     const textInput = screen.getByRole<HTMLInputElement>('textbox', { name: 'Description' });
     textInput.value = 'test 2';
     fireEvent.input(textInput);
@@ -73,11 +71,40 @@ describe('Filters', () => {
     selectInput.value = '3';
     fireEvent.change(selectInput);
     fireEvent.click(button);
-    expect(fn).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        Options: '3',
-        Description: 'test 2',
-      }),
-    );
+    expect(fn).toHaveBeenLastCalledWith({
+      Options: '3',
+      Description: 'test 2',
+    });
+  });
+  it('has a button to reset filters', () => {
+    const filters: Filter[] = [
+      { type: 'text', name: 'Description', value: 'test' },
+      {
+        type: 'select',
+        name: 'Options',
+        value: '2',
+        options: [
+          { text: 'Option 1', value: '1' },
+          { text: 'Option 2', value: '2' },
+          { text: 'Option 3', value: '3' },
+        ],
+      },
+    ];
+    const fn = jest.fn();
+    render(<Filters filters={filters} onSubmit={fn} />);
+    const button = screen.getByRole('button', { name: 'Reset filters' });
+    const textInput = screen.getByRole<HTMLInputElement>('textbox', { name: 'Description' });
+    textInput.value = 'test 2';
+    fireEvent.input(textInput);
+    const selectInput = screen.getByRole<HTMLSelectElement>('combobox', { name: 'Options' });
+    selectInput.value = '3';
+    fireEvent.change(selectInput);
+    fireEvent.click(button);
+    expect(fn).toHaveBeenLastCalledWith({
+      Options: '2',
+      Description: 'test',
+    });
+    expect(selectInput.value).toBe('2');
+    expect(textInput.value).toBe('test');
   });
 });

@@ -28,11 +28,8 @@ interface FilterProps {
 }
 
 const Filter: React.FC<FilterProps> = ({ filter, onInput }) => {
-  const [value, setValue] = useState(filter.value);
-
   const onFilterInput = (event: React.FormEvent) => {
     const inputValue = (event.target as HTMLInputElement).value;
-    setValue(inputValue);
     onInput(inputValue);
   };
 
@@ -43,7 +40,7 @@ const Filter: React.FC<FilterProps> = ({ filter, onInput }) => {
         type="text"
         name={filter.name}
         aria-label={filter.name}
-        value={value}
+        value={filter.value}
         onInput={onFilterInput}
       />
       ) }
@@ -51,7 +48,7 @@ const Filter: React.FC<FilterProps> = ({ filter, onInput }) => {
         <select
           name={filter.name}
           aria-label={filter.name}
-          value={value}
+          value={filter.value}
           onChange={onFilterInput}
         >
           {
@@ -66,20 +63,38 @@ const Filter: React.FC<FilterProps> = ({ filter, onInput }) => {
 };
 
 const Filters: React.FC<Props> = ({ filters, onSubmit }) => {
-  const [values, setValues] = useState<Record<string, string>>(
-    filters.reduce((obj, filter) => ({ ...obj, [filter.name]: filter.value.toString() }), {}),
+  const [myFilters, setMyFilters] = useState<Record<string, Filter>>(
+    filters.reduce((obj, filter) => ({ ...obj, [filter.name]: filter }), {}),
   );
 
   const onInput = (name: string, value: string) => {
-    setValues({
-      ...values,
-      [name]: value,
+    setMyFilters({
+      ...myFilters,
+      [name]: {
+        ...myFilters[name],
+        value,
+      },
     });
+  };
+
+  const submitFilters = (filtersToSubmit?: typeof myFilters) => {
+    onSubmit(
+      Object.entries(filtersToSubmit || myFilters).reduce(
+        (obj, [name, { value }]) => ({ ...obj, [name]: value }),
+        {},
+      ),
+    );
   };
 
   const onFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    onSubmit(values);
+    submitFilters();
+  };
+
+  const resetFilters = () => {
+    const newFilters = filters.reduce((obj, filter) => ({ ...obj, [filter.name]: filter }), {});
+    setMyFilters(newFilters);
+    submitFilters(newFilters);
   };
 
   return (
@@ -87,11 +102,12 @@ const Filters: React.FC<Props> = ({ filters, onSubmit }) => {
       { filters.map((filter) => (
         <Filter
           key={filter.name}
-          filter={filter}
+          filter={myFilters[filter.name]}
           onInput={(value) => onInput(filter.name, value)}
         />
       )) }
-      <button type="button" onClick={() => onSubmit(values)}>Apply filters</button>
+      <button type="button" onClick={() => submitFilters()}>Apply filters</button>
+      <button type="button" onClick={resetFilters}>Reset filters</button>
     </form>
   );
 };
