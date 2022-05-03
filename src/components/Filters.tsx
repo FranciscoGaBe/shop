@@ -23,20 +23,22 @@ interface Props {
 }
 
 interface FilterProps {
+  className?: string,
   filter: Filter,
   onInput: (value: string) => void
 }
 
-const Filter: React.FC<FilterProps> = ({ filter, onInput }) => {
+const Filter: React.FC<FilterProps> = ({ className = '', filter, onInput }) => {
   const onFilterInput = (event: React.FormEvent) => {
     const inputValue = (event.target as HTMLInputElement).value;
     onInput(inputValue);
   };
 
   return (
-    <div>
+    <>
       { filter.type === 'text' && (
       <input
+        className={className}
         type="text"
         name={filter.name}
         aria-label={filter.name}
@@ -46,6 +48,7 @@ const Filter: React.FC<FilterProps> = ({ filter, onInput }) => {
       ) }
       { filter.type === 'select' && (
         <select
+          className={className}
           name={filter.name}
           aria-label={filter.name}
           value={filter.value}
@@ -58,8 +61,11 @@ const Filter: React.FC<FilterProps> = ({ filter, onInput }) => {
           }
         </select>
       ) }
-    </div>
+    </>
   );
+};
+Filter.defaultProps = {
+  className: '',
 };
 
 const Filters: React.FC<Props> = ({ filters, onSubmit }) => {
@@ -98,16 +104,40 @@ const Filters: React.FC<Props> = ({ filters, onSubmit }) => {
   };
 
   return (
-    <form name="filters" aria-label="filters" onSubmit={onFormSubmit}>
+    <form
+      className="inline-flex"
+      name="filters"
+      aria-label="filters"
+      onSubmit={onFormSubmit}
+    >
       { filters.map((filter) => (
         <Filter
           key={filter.name}
+          className={`
+            border-2 rounded border-rose-400 focus:border-rose-700 bg-white outline-none
+            px-1 py-0.5 mr-4
+            transition-all duration-200 ease-in-out
+          `}
           filter={myFilters[filter.name]}
           onInput={(value) => onInput(filter.name, value)}
         />
       )) }
-      <button type="button" onClick={() => submitFilters()}>Apply filters</button>
-      <button type="button" onClick={resetFilters}>Reset filters</button>
+      <button
+        className="bg-rose-800 text-white px-2 rounded mr-2"
+        type="button"
+        aria-label="Apply filters"
+        onClick={() => submitFilters()}
+      >
+        Apply
+      </button>
+      <button
+        className="bg-rose-600 text-white px-2 rounded"
+        type="button"
+        aria-label="Reset filters"
+        onClick={resetFilters}
+      >
+        Reset
+      </button>
     </form>
   );
 };
