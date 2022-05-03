@@ -16,11 +16,11 @@ const CategoryPage: React.FC = () => {
     <LoadingHandler isLoading={isLoading || isFetching} isError={isError}>
       { data && (
         <div>
-          <SectionElement>
+          <SectionElement key={category}>
             <Heading level={1}>
               <span className="capitalize text-4xl">{ category }</span>
             </Heading>
-            <ProductsDisplayer key={category} products={data} />
+            <ProductsDisplayer products={data} />
           </SectionElement>
         </div>
       ) }
