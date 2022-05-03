@@ -66,7 +66,11 @@ const ProductsDisplayer: React.FC<Props> = ({ products, perPage = 0 }) => {
       <div className="flex flex-wrap px-1">
         {
           productsToShow.map((product) => (
-            <div key={product.id} className="sm:w-1/2 md:w-1/4 p-4">
+            <motion.div
+              key={product.id}
+              className="sm:w-1/2 md:w-1/4 p-4"
+              layout
+            >
               <div className="relative">
                 <motion.div
                   animate={{ opacity: loading ? 0 : 1 }}
@@ -90,7 +94,7 @@ const ProductsDisplayer: React.FC<Props> = ({ products, perPage = 0 }) => {
                   `}
                 />
               </div>
-            </div>
+            </motion.div>
           ))
         }
       </div>
