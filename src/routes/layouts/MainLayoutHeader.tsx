@@ -1,12 +1,12 @@
 import {
-  faBars, faCartShopping, faChevronDown, faTimes, faUser,
+  faBars, faCartShopping, faChevronDown, faMagnifyingGlass, faTimes, faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { motion, useAnimation } from 'framer-motion';
 import React, {
   useEffect, useMemo, useRef, useState,
 } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import logo from '../../logo.svg';
 import { useGetCategoriesQuery } from '../../services/shop';
 
@@ -75,7 +75,7 @@ const HeaderNavDropdown: React.FC<HeaderNavElementProps> = ({ element, onClick }
   return (
     <li
       ref={ref}
-      className="my-4 md:my-0 relative mx-4"
+      className="my-4 md:my-0 relative mx-4 shrink-0"
     >
       <button type="button" className="w-full px-3 py-1 relative z-10" onClick={() => setShow(!show)}>
         <span className="mr-2">{ element.text }</span>
@@ -115,7 +115,7 @@ const HeaderNavDropdown: React.FC<HeaderNavElementProps> = ({ element, onClick }
 const HeaderNavElement: React.FC<HeaderNavElementProps> = ({ element, onClick }) => {
   if (element.type === 'LINK') {
     return (
-      <li className="my-4 md:my-0">
+      <li className="my-4 md:my-0 shrink-0">
         <NavLink
           to={element.to}
           className={({ isActive }) => (isActive ? 'font-black' : '')}
@@ -128,6 +128,51 @@ const HeaderNavElement: React.FC<HeaderNavElementProps> = ({ element, onClick })
   }
   if (element.type === 'DROPDOWN') return <HeaderNavDropdown element={element} onClick={onClick} />;
   return null;
+};
+
+const HeaderNavSearch: React.FC<{ onSearch: () => void }> = ({ onSearch }) => {
+  const [value, setValue] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    onSearch();
+    navigate(`/search?q=${value}`);
+  };
+
+  return (
+    <li className="grow order-first md:order-none">
+      <form
+        className="flex"
+        role="search"
+        onSubmit={handleSubmit}
+      >
+        <input
+          className={`
+            grow text-black px-1 py-1 rounded-l border-2 outline-none
+            border-rose-600 focus:border-rose-800
+            transition-all duration-200 ease-in-out
+          `}
+          type="text"
+          value={value}
+          placeholder="Search"
+          name="q"
+          aria-label="search text"
+          onInput={({ target }) => setValue((target as HTMLInputElement).value)}
+        />
+        <button
+          className={`
+            shrink-0 px-4 rounded-r bg-rose-600 
+            hover:bg-rose-800 focus:bg-rose-800 outline-none
+          `}
+          type="submit"
+          aria-label="search"
+        >
+          <FontAwesomeIcon icon={faMagnifyingGlass} />
+        </button>
+      </form>
+    </li>
+  );
 };
 
 const MainLayoutHeader: React.FC = () => {
@@ -149,8 +194,12 @@ const MainLayoutHeader: React.FC = () => {
   }, [data]);
 
   return (
-    <header className="bg-rose-700 h-16 flex sticky top-0 shadow shadow-rose-700/80 z-20">
-      <div className="w-2/5 flex-shrink-0 text-white flex items-center justify-start px-4 md:px-8">
+    <header
+      className="bg-rose-700 h-16 flex justify-center sticky top-0 shadow shadow-rose-700/80 z-20"
+    >
+      <div
+        className="w-1/2 text-white flex items-center justify-start pl-4 md:pl-8 pr-10 md:pr-16"
+      >
         <button
           type="button"
           className="md:hidden border-2 border-white rounded px-2"
@@ -160,8 +209,8 @@ const MainLayoutHeader: React.FC = () => {
         </button>
         <div
           className={[
-            'transition-all duration-300 ease-in-out',
-            'inset-0 fixed md:static bg-rose-700/80 md:bg-transparent',
+            'transition-all duration-300 ease-in-out w-full',
+            'inset-0 fixed md:static bg-rose-700 md:bg-transparent',
             showMenu ? 'opacity-100' : 'opacity-0 md:opacity-100 pointer-events-none md:pointer-events-auto',
           ].join(' ')}
         >
@@ -172,8 +221,8 @@ const MainLayoutHeader: React.FC = () => {
           >
             <FontAwesomeIcon icon={faTimes} />
           </button>
-          <nav className="h-full w-full flex items-center justify-center">
-            <ul className="flex items-center md:gap-4 text-white flex-col md:flex-row">
+          <nav className="h-full w-full flex items-center justify-center md:justify-start">
+            <ul className="flex w-full items-center md:gap-4 text-white flex-col md:flex-row">
               {
                 navElements.map((element) => (
                   <HeaderNavElement
@@ -183,19 +232,20 @@ const MainLayoutHeader: React.FC = () => {
                   />
                 ))
               }
+              <HeaderNavSearch onSearch={() => setShowMenu(false)} />
             </ul>
           </nav>
         </div>
       </div>
-      <div className="flex-shrink-0 w-1/5 flex justify-center relative">
+      <div className="flex justify-center absolute top-0 mx-auto">
         <Link
           to="/"
-          className="w-20 max-w-full aspect-square rounded-full bg-rose-700 absolute shadow shadow-rose-800"
+          className="w-20 max-w-full aspect-square rounded-full bg-rose-700 shadow shadow-rose-800"
         >
           <img src={logo} alt="Logo" />
         </Link>
       </div>
-      <div className="w-2/5 flex-shrink-0 flex items-center justify-end gap-4 px-4 md:px-8">
+      <div className="w-1/2 flex items-center justify-end gap-4 pr-4 pl-10 md:pr-8 md:pl-16">
         <button
           type="button"
           className={[

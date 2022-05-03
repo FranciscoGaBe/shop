@@ -1,13 +1,20 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { MemoryHistory, createMemoryHistory } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import { store } from '../app/store';
 
-const wrappedRender = (component: React.ReactNode) => (
+type WrapperRender = (
+  component: JSX.Element,
+  options?: { location?: string, history?: MemoryHistory }
+) => JSX.Element
+
+const wrappedRender: WrapperRender = (component, options = {}) => (
   <Provider store={store}>
-    <MemoryRouter>
+    <Router navigator={options.history || createMemoryHistory()} location={options.location || '/'}>
       { component }
-    </MemoryRouter>
+    </Router>
   </Provider>
 );
 
