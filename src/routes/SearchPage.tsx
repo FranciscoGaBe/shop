@@ -21,7 +21,12 @@ const SearchPage: React.FC = () => {
     reduceFilters(myFilters),
   );
   const { data, isLoading, isError } = useGetProductsQuery();
-  const [sortedProducts, setSortedProducts] = useState(filterAndSortProducts(data));
+  const [sortedProducts, setSortedProducts] = useState(
+    filterAndSortProducts(data, {
+      ...appliedFilters,
+      name: search || '',
+    }),
+  );
 
   useEffect(() => {
     setSortedProducts(filterAndSortProducts(data, {
