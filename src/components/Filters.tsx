@@ -77,8 +77,13 @@ const Filters: React.FC<Props> = ({ filters, onSubmit }) => {
     });
   };
 
+  const onFormSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    onSubmit(values);
+  };
+
   return (
-    <form name="filters" aria-label="filters">
+    <form name="filters" aria-label="filters" onSubmit={onFormSubmit}>
       { filters.map((filter) => (
         <Filter
           key={filter.name}
