@@ -27,33 +27,43 @@ interface FilterProps {
   onInput: (value: string) => void
 }
 
-const Filter: React.FC<FilterProps> = ({ filter, onInput }) => (
-  <div>
-    { filter.type === 'text' && (
-    <input
-      type="text"
-      name={filter.name}
-      aria-label={filter.name}
-      value={filter.value}
-      onInput={(event) => onInput((event.target as HTMLInputElement).value)}
-    />
-    ) }
-    { filter.type === 'select' && (
-      <select
+const Filter: React.FC<FilterProps> = ({ filter, onInput }) => {
+  const [value, setValue] = useState(filter.value);
+
+  const onFilterInput = (event: React.FormEvent) => {
+    const inputValue = (event.target as HTMLInputElement).value;
+    setValue(inputValue);
+    onInput(inputValue);
+  };
+
+  return (
+    <div>
+      { filter.type === 'text' && (
+      <input
+        type="text"
         name={filter.name}
         aria-label={filter.name}
-        value={filter.value}
-        onChange={(event) => onInput(event.target.value)}
-      >
-        {
-          filter.options.map((option) => (
-            <option key={option.value} value={option.value}>{ option.text }</option>
-          ))
-        }
-      </select>
-    ) }
-  </div>
-);
+        value={value}
+        onInput={onFilterInput}
+      />
+      ) }
+      { filter.type === 'select' && (
+        <select
+          name={filter.name}
+          aria-label={filter.name}
+          value={value}
+          onChange={onFilterInput}
+        >
+          {
+            filter.options.map((option) => (
+              <option key={option.value} value={option.value}>{ option.text }</option>
+            ))
+          }
+        </select>
+      ) }
+    </div>
+  );
+};
 
 const Filters: React.FC<Props> = ({ filters, onSubmit }) => {
   const [values, setValues] = useState<Record<string, string>>(
