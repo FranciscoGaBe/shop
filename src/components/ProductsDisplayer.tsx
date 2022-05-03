@@ -1,5 +1,5 @@
 import { animate, motion, useViewportScroll } from 'framer-motion';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Product } from '../services/types';
 import Pagination from './Pagination';
 import ProductBox from './ProductBox';
@@ -22,6 +22,10 @@ const ProductsDisplayer: React.FC<Props> = ({ products, perPage = 0 }) => {
   const [loading, setLoading] = useState(false);
   const { scrollY } = useViewportScroll();
   const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setProductsToShow(!perPage ? products : sliceArray(products, page, perPage));
+  }, [products, page, perPage]);
 
   const changePage = (pageNumber: number) => {
     setPage(pageNumber);
@@ -62,7 +66,11 @@ const ProductsDisplayer: React.FC<Props> = ({ products, perPage = 0 }) => {
       <div className="flex flex-wrap px-1">
         {
           productsToShow.map((product) => (
-            <div key={product.id} className="sm:w-1/2 md:w-1/4 p-4">
+            <motion.div
+              key={product.id}
+              className="sm:w-1/2 md:w-1/4 p-4"
+              layout
+            >
               <div className="relative">
                 <motion.div
                   animate={{ opacity: loading ? 0 : 1 }}
@@ -75,7 +83,7 @@ const ProductsDisplayer: React.FC<Props> = ({ products, perPage = 0 }) => {
                     close: { opacity: 0, height: '5rem' },
                     open: { opacity: 1, height: '100%' },
                   }}
-                  initial="open"
+                  initial="close"
                   animate={loading ? 'open' : 'close'}
                   transition={{
                     duration: 0.3,
@@ -86,7 +94,7 @@ const ProductsDisplayer: React.FC<Props> = ({ products, perPage = 0 }) => {
                   `}
                 />
               </div>
-            </div>
+            </motion.div>
           ))
         }
       </div>

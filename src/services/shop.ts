@@ -21,7 +21,15 @@ export const shopApi = createApi({
         ? [{ type: 'Posts', id: result.id }]
         : ['Posts']),
     }),
+    getProductByCategory: builder.query<Product[], string>({
+      query: (category) => `/products/category/${category}`,
+    }),
+    getCategories: builder.query<string[], void>({
+      query: () => '/products/categories',
+    }),
   }),
 });
 
-export const { useGetProductsQuery, useGetProductQuery } = shopApi;
+export const {
+  useGetProductsQuery, useGetProductQuery, useGetCategoriesQuery, useGetProductByCategoryQuery,
+} = shopApi;

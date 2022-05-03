@@ -1,14 +1,11 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
 import MainLayout from './MainLayout';
+import wrappedRender from '../../utils/wrappedRender';
 
 describe('MainLayout', () => {
   beforeEach(() => {
-    render(
-      <MainLayout />,
-      { wrapper: MemoryRouter },
-    );
+    render(wrappedRender(<MainLayout />));
   });
 
   it('has header element', () => {
