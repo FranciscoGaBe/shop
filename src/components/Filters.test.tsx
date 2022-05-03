@@ -3,7 +3,7 @@ import React from 'react';
 import Filters, { Filter } from './Filters';
 
 describe('Filters', () => {
-  it('renders from element', () => {
+  it('renders form element', () => {
     const filters: Filter[] = [
       { type: 'text', name: 'Description', value: 'test' },
     ];
@@ -13,11 +13,14 @@ describe('Filters', () => {
   describe('filters', () => {
     it('renders text inputs', () => {
       const filters: Filter[] = [
-        { type: 'text', name: 'Description', value: 'test' },
+        {
+          type: 'text', name: 'Description', value: 'test', placeholder: 'Placeholder',
+        },
       ];
       render(<Filters filters={filters} onSubmit={() => undefined} />);
       const input = screen.getByRole<HTMLInputElement>('textbox', { name: 'Description' });
       expect(input.value).toBe('test');
+      expect(input.placeholder).toBe('Placeholder');
     });
     it('renders select', () => {
       const filters: Filter[] = [

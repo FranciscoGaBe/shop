@@ -7,7 +7,8 @@ interface BaseFilter {
 }
 
 interface TextFilter extends BaseFilter {
-  type: 'text'
+  type: 'text',
+  placeholder?: string
 }
 
 interface SelectFilter extends BaseFilter {
@@ -43,6 +44,7 @@ const Filter: React.FC<FilterProps> = ({ className = '', filter, onInput }) => {
         name={filter.name}
         aria-label={filter.name}
         value={filter.value}
+        placeholder={filter.placeholder}
         onInput={onFilterInput}
       />
       ) }
