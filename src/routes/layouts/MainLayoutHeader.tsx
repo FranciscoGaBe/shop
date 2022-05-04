@@ -260,15 +260,17 @@ const MainLayoutHeader: React.FC = () => {
           {' '}
           <b>User</b>
         </p>
-        <button
-          type="button"
-          className={[
-            'text-white border-2 border-white rounded-full h-10 w-10',
-            'shadow shadow-rose-800',
-          ].join(' ')}
+        <NavLink
+          to="/cart"
+          className={({ isActive }) => `
+            transition-all duration-200 ease-in-out
+            flex items-center justify-center h-10 w-10 shadow shadow-rose-800
+          text-white border-2 border-white hover:text-rose-700 hover:bg-white
+            ${isActive ? 'rounded-lg bg-rose-800' : 'rounded-full bg-rose-700'}
+          `}
         >
           <FontAwesomeIcon icon={faCartShopping} />
-        </button>
+        </NavLink>
       </div>
     </header>
   );
