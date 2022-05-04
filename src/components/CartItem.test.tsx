@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import { store } from '../app/store';
 import CartItem from './CartItem';
 import { addProduct, clearCart } from '../services/cart';
@@ -22,7 +23,9 @@ describe('CartItem', () => {
     store.dispatch(addProduct({ productId: product.id, quantity: 5 }));
     render(
       <Provider store={store}>
-        <CartItem item={product} />
+        <MemoryRouter>
+          <CartItem item={product} />
+        </MemoryRouter>
       </Provider>,
     );
   });

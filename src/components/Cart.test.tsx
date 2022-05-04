@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import Cart from './Cart';
 import { store } from '../app/store';
 import { Product } from '../services/types';
@@ -42,7 +43,9 @@ describe('Cart', () => {
   beforeEach(() => {
     render(
       <Provider store={store}>
-        <Cart items={products} />
+        <MemoryRouter>
+          <Cart items={products} />
+        </MemoryRouter>
       </Provider>,
     );
   });

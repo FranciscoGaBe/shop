@@ -2,6 +2,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { motion } from 'framer-motion';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../app/hooks';
 import { changeProductQuantity, removeProduct } from '../services/cart';
 import { Product } from '../services/types';
@@ -37,8 +38,17 @@ const CartItem: React.FC<Props> = ({ item }) => {
         <img className="max-h-full" src={image} alt={title} />
       </div>
       <div className="w-full md:w-3/6 p-2 flex flex-col justify-between h-full">
-        <p className="font-semibold text-sm">{ title }</p>
-        <div className="font-bold px-2 mt-2">
+        <Link
+          to={`/product/${id}`}
+          className={`
+            transition-all duration-200 ease-in-out
+            font-bold hover:text-rose-700
+          `}
+        >
+          { title }
+
+        </Link>
+        <div className="font-semibold px-2 mt-2">
           <span>{ price }</span>
           <span>€</span>
         </div>
