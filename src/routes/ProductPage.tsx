@@ -2,15 +2,18 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useAppDispatch } from '../app/hooks';
 import Heading from '../components/Heading';
 import LoadingHandler from '../components/LoadingHandler';
 import Rating from '../components/Rating';
 import SectionElement from '../components/SectionElement';
+import { addProduct } from '../services/cart';
 import { useGetProductQuery } from '../services/shop';
 
 const stock = Array(30).fill(0).map((_, index) => index + 1);
 
 const ProductPage: React.FC = () => {
+  const dispatch = useAppDispatch();
   const { id } = useParams();
   const { data, isLoading, isError } = useGetProductQuery(id as string);
   const [quantity, setQuantity] = useState(1);
@@ -18,6 +21,14 @@ const ProductPage: React.FC = () => {
 
   const goBack = () => {
     navigate(-1);
+  };
+
+  const addToCart = () => {
+    if (!data) return;
+    dispatch(addProduct({
+      productId: data.id,
+      quantity,
+    }));
   };
 
   return (
@@ -79,9 +90,9 @@ const ProductPage: React.FC = () => {
                   <button
                     type="button"
                     className="bg-rose-800 rounded-lg px-2 py-1 text-white font-semibold"
+                    onClick={addToCart}
                   >
                     Add to cart
-
                   </button>
                 </div>
               </div>
