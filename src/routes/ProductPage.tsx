@@ -1,6 +1,8 @@
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
+import { motion, useAnimation } from 'framer-motion';
+import React, { useRef, useState } from 'react';
+import ReactDOM from 'react-dom';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch } from '../app/hooks';
 import Heading from '../components/Heading';
@@ -18,9 +20,51 @@ const ProductPage: React.FC = () => {
   const { data, isLoading, isError } = useGetProductQuery(id as string);
   const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
+  const imageControls = useAnimation();
+  const imageRef = useRef<HTMLImageElement>(null);
+  const cart = document.querySelector('#cart-link');
+  const [disabledButton, setDisabledButton] = useState(false);
 
   const goBack = () => {
     navigate(-1);
+  };
+
+  const cartAnimation = async () => {
+    if (!imageRef.current || !cart) return;
+
+    setDisabledButton(true);
+    const {
+      x: fromX, y: fromY, width: fromWidth, height: fromHeight,
+    } = imageRef.current.getBoundingClientRect();
+    const {
+      x: toX, y: toY, width: toWidth, height: toHeight,
+    } = cart.getBoundingClientRect();
+    imageControls.set({
+      display: 'block',
+      left: fromX,
+      top: fromY,
+      width: fromWidth,
+      height: fromHeight,
+      position: 'fixed',
+      borderRadius: 0,
+      opacity: 1,
+    });
+    await imageControls.start({
+      left: toX,
+      top: toY,
+      width: toWidth,
+      height: toHeight,
+      borderRadius: toX / 2,
+      opacity: 0.2,
+      transition: {
+        duration: 1,
+        ease: 'easeInOut',
+      },
+      transitionEnd: {
+        display: 'none',
+      },
+    });
+    setDisabledButton(false);
   };
 
   const addToCart = () => {
@@ -29,6 +73,7 @@ const ProductPage: React.FC = () => {
       productId: data.id,
       quantity,
     }));
+    cartAnimation();
   };
 
   return (
@@ -46,7 +91,18 @@ const ProductPage: React.FC = () => {
             </button>
             <div className="flex flex-wrap">
               <div className="w-full md:w-1/3 p-4 bg-white rounded-lg flex items-center">
-                <img src={data.image} alt={data.title} />
+                <span className="relative">
+                  <img ref={imageRef} src={data.image} alt={data.title} />
+                  { cart && ReactDOM.createPortal(
+                    <motion.img
+                      initial={{ display: 'none' }}
+                      animate={imageControls}
+                      src={data.image}
+                      alt={data.title}
+                    />,
+                    cart,
+                  ) }
+                </span>
               </div>
               <div className="w-full md:w-2/3 p-4">
                 <p className="font-bold text-gray-500">{ data.category }</p>
@@ -89,7 +145,12 @@ const ProductPage: React.FC = () => {
                   </label>
                   <button
                     type="button"
-                    className="bg-rose-800 rounded-lg px-2 py-1 text-white font-semibold"
+                    className={`
+                      transition-all duration-200 ease-in-out
+                    bg-rose-800 rounded-lg px-2 py-1 text-white font-semibold
+                      disabled:opacity-50 disabled:cursor-not-allowed
+                    `}
+                    disabled={disabledButton}
                     onClick={addToCart}
                   >
                     Add to cart

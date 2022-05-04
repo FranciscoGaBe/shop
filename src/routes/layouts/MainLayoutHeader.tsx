@@ -2,12 +2,14 @@ import {
   faBars, faCartShopping, faChevronDown, faMagnifyingGlass, faTimes, faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { motion, useAnimation } from 'framer-motion';
+import { AnimatePresence, motion, useAnimation } from 'framer-motion';
 import React, {
   useEffect, useMemo, useRef, useState,
 } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../app/hooks';
 import logo from '../../logo.svg';
+import { selectProducts } from '../../services/cart';
 import { useGetCategoriesQuery } from '../../services/shop';
 
 interface NavElement {
@@ -175,6 +177,51 @@ const HeaderNavSearch: React.FC<{ onSearch: () => void }> = ({ onSearch }) => {
   );
 };
 
+const HeaderCart: React.FC = () => {
+  const [items, setItems] = useState(0);
+  const products = useAppSelector(selectProducts).length;
+
+  useEffect(() => {
+    if (products > items) setTimeout(() => setItems(products), 1000);
+    else if (products < items) setItems(products);
+  }, [products, items]);
+
+  return (
+    <NavLink
+      to="/cart"
+      id="cart-link"
+      className={({ isActive }) => `
+        transition-all duration-200 ease-in-out relative
+        flex items-center justify-center h-10 w-10 shadow shadow-rose-800
+      text-white border-2 border-white hover:text-rose-700 hover:bg-white
+        ${isActive ? 'rounded-lg bg-rose-800' : 'rounded-3xl bg-rose-700'}
+      `}
+    >
+      <FontAwesomeIcon icon={faCartShopping} />
+      { !!items && (
+        <AnimatePresence>
+          <span
+            className={`
+              flex items-center justify-center rounded-full overflow-hidden
+              border-2 border-white text-xs font-semibold text-white
+              absolute -bottom-1.5 -right-1.5 bg-rose-900 w-5 h-5
+            `}
+          >
+            <motion.span
+              initial={{ x: -5 }}
+              animate={{ x: 0 }}
+              exit={{ x: 5 }}
+              key={items}
+            >
+              { items }
+            </motion.span>
+          </span>
+        </AnimatePresence>
+      ) }
+    </NavLink>
+  );
+};
+
 const MainLayoutHeader: React.FC = () => {
   const [showMenu, setShowMenu] = useState(false);
   const { data } = useGetCategoriesQuery();
@@ -260,17 +307,7 @@ const MainLayoutHeader: React.FC = () => {
           {' '}
           <b>User</b>
         </p>
-        <NavLink
-          to="/cart"
-          className={({ isActive }) => `
-            transition-all duration-200 ease-in-out
-            flex items-center justify-center h-10 w-10 shadow shadow-rose-800
-          text-white border-2 border-white hover:text-rose-700 hover:bg-white
-            ${isActive ? 'rounded-lg bg-rose-800' : 'rounded-full bg-rose-700'}
-          `}
-        >
-          <FontAwesomeIcon icon={faCartShopping} />
-        </NavLink>
+        <HeaderCart />
       </div>
     </header>
   );
