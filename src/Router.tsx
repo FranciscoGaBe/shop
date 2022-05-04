@@ -1,5 +1,6 @@
 import React from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
+import CartPage from './routes/CartPage';
 import CategoryPage from './routes/CategoryPage';
 import HomePage from './routes/HomePage';
 import MainLayout from './routes/layouts/MainLayout';
@@ -14,6 +15,7 @@ const Router = () => (
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/category/:category" element={<CategoryPage />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/cart" element={<CartPage />} />
       </Route>
     </Routes>
   </HashRouter>
