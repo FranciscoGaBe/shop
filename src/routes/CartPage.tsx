@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useAppSelector } from '../app/hooks';
 import Cart from '../components/Cart';
+import Heading from '../components/Heading';
 import LoadingHandler from '../components/LoadingHandler';
+import SectionElement from '../components/SectionElement';
 import { selectProducts } from '../services/cart';
 import { useGetProductsQuery } from '../services/shop';
 import { Product } from '../services/types';
@@ -32,7 +34,14 @@ const CartPage: React.FC = () => {
   return (
     <LoadingHandler isLoading={isLoading} isError={isError}>
       { items && (
-        <Cart items={items} />
+        <SectionElement className="px-2">
+          <Heading level={1}>
+            <span className="text-4xl">Your Cart</span>
+          </Heading>
+          <div className="mt-4 px-2">
+            <Cart items={items} />
+          </div>
+        </SectionElement>
       ) }
     </LoadingHandler>
   );

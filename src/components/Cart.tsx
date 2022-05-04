@@ -1,3 +1,4 @@
+import { AnimatePresence } from 'framer-motion';
 import React from 'react';
 import { Product } from '../services/types';
 import CartItem from './CartItem';
@@ -7,12 +8,15 @@ interface Props {
 }
 
 const Cart: React.FC<Props> = ({ items }) => (
-  <ul>
-    {
-      items.map((item) => (
-        <CartItem key={item.id} item={item} />
-      ))
-    }
+  <ul className="bg-white rounded-lg shadow p-4">
+    <AnimatePresence>
+      {
+        items.map((item) => (
+          <CartItem key={item.id} item={item} />
+        ))
+      }
+      { !items.length && <p className="font-bold text-center text-xl">Your cart is empty</p> }
+    </AnimatePresence>
   </ul>
 );
 
