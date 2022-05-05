@@ -46,6 +46,9 @@ const SearchPage: React.FC = () => {
             <Filters filters={myFilters} onSubmit={setAppliedFilters} />
           </div>
           <ProductsDisplayer products={sortedProducts} />
+          { !sortedProducts.length && (
+            <p className="font-bold text-2xl text-rose-900 text-center bg-white rounded-lg p-4 shadow">No products found</p>
+          ) }
         </SectionElement>
       ) }
     </LoadingHandler>
