@@ -7,20 +7,25 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import FormInput from '../components/FormInput';
 import Heading from '../components/Heading';
 import {
-  clearError, clearSuccess, login, selectUserError, selectUserSuccess,
+  clearError, clearSuccess, login, selectAuthUser, selectUserError, selectUserSuccess,
 } from '../services/user';
 
 const SigninPage: React.FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const error = useAppSelector(selectUserError);
   const success = useAppSelector(selectUserSuccess);
-  const navigate = useNavigate();
+  const authUser = useAppSelector(selectAuthUser);
 
   useEffect(() => {
     dispatch(clearError());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (authUser) navigate('/');
+  }, [authUser, navigate]);
 
   useEffect(() => {
     if (!success) return;
@@ -46,8 +51,8 @@ const SigninPage: React.FC = () => {
       >
         <Heading level={1}>Sign In</Heading>
         <div className="mb-8 mt-4 px-2">
-          <FormInput type="text" value={name} name="Name" onInput={handleInput(setName)} />
-          <FormInput type="text" value={password} name="Password" onInput={handleInput(setPassword)} />
+          <FormInput value={name} name="Name" onInput={handleInput(setName)} />
+          <FormInput type="password" value={password} name="Password" onInput={handleInput(setPassword)} />
         </div>
         <div className="relative">
           <AnimatePresence>

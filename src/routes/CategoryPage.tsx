@@ -24,7 +24,7 @@ const CategoryPage: React.FC = () => {
     <LoadingHandler isLoading={isLoading || isFetching} isError={isError}>
       { sortedProducts && (
         <div>
-          <SectionElement key={category}>
+          <SectionElement key={category} className="px-2">
             <Heading level={1}>
               <span className="capitalize text-4xl">{ category }</span>
             </Heading>

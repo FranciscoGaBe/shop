@@ -53,4 +53,10 @@ describe('Cart', () => {
   it('displays all items in cart', async () => {
     expect(screen.getAllByRole('listitem')).toHaveLength(3);
   });
+  it('displays price total', () => {
+    const totalPrice = Math.round(
+      products.reduce((total, { price, quantity }) => total + price * quantity, 0) * 100,
+    ) / 100;
+    expect(screen.getByText(totalPrice)).toBeInTheDocument();
+  });
 });

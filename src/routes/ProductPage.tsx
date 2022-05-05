@@ -39,6 +39,7 @@ const ProductPage: React.FC = () => {
     const {
       x: toX, y: toY, width: toWidth, height: toHeight,
     } = cart.getBoundingClientRect();
+    const { width: bodyWidth, height: bodyHeight } = document.body.getBoundingClientRect();
     imageControls.set({
       display: 'block',
       left: fromX,
@@ -48,16 +49,26 @@ const ProductPage: React.FC = () => {
       position: 'fixed',
       borderRadius: 0,
       opacity: 1,
+      pointerEvents: 'none',
+      border: '2px solid white',
+    });
+    await imageControls.start({
+      left: bodyWidth / 2 - toWidth / 2,
+      top: bodyHeight / 2 - toHeight / 2,
+      width: toWidth,
+      height: toHeight,
+      borderRadius: toX / 2,
+      transition: {
+        duration: 0.4,
+        ease: 'easeInOut',
+      },
     });
     await imageControls.start({
       left: toX,
       top: toY,
-      width: toWidth,
-      height: toHeight,
-      borderRadius: toX / 2,
       opacity: 0.2,
       transition: {
-        duration: 1,
+        duration: 0.6,
         ease: 'easeInOut',
       },
       transitionEnd: {
@@ -90,9 +101,9 @@ const ProductPage: React.FC = () => {
               <span className="ml-2">Go back</span>
             </button>
             <div className="flex flex-wrap">
-              <div className="w-full md:w-1/3 p-4 bg-white rounded-lg flex items-center">
-                <span className="relative">
-                  <img ref={imageRef} src={data.image} alt={data.title} />
+              <div className="w-full md:w-1/3 px-2">
+                <div className="relative bg-white rounded-lg p-4 flex items-center justify-center">
+                  <img className=" max-h-96" ref={imageRef} src={data.image} alt={data.title} />
                   { cart && ReactDOM.createPortal(
                     <motion.img
                       initial={{ display: 'none' }}
@@ -102,7 +113,7 @@ const ProductPage: React.FC = () => {
                     />,
                     cart,
                   ) }
-                </span>
+                </div>
               </div>
               <div className="w-full md:w-2/3 p-4">
                 <p className="font-bold text-gray-500">{ data.category }</p>

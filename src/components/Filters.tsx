@@ -107,7 +107,7 @@ const Filters: React.FC<Props> = ({ filters, onSubmit }) => {
 
   return (
     <form
-      className="inline-flex"
+      className="flex md:inline-flex flex-col md:flex-row gap-2 md:gap-0 px-4 mt-4"
       name="filters"
       aria-label="filters"
       onSubmit={onFormSubmit}
@@ -118,7 +118,7 @@ const Filters: React.FC<Props> = ({ filters, onSubmit }) => {
           className={`
             border-2 rounded border-rose-400 focus:border-rose-700 bg-white outline-none
             text-rose-800 font-medium placeholder:font-normal
-            px-1 py-0.5 mr-4
+            px-1 py-0.5 md:mr-4
             transition-all duration-200 ease-in-out
           `}
           filter={myFilters[filter.name]}
@@ -126,7 +126,7 @@ const Filters: React.FC<Props> = ({ filters, onSubmit }) => {
         />
       )) }
       <button
-        className="bg-rose-800 text-white px-2 rounded mr-2"
+        className="bg-rose-800 text-white py-1 px-2 rounded md:mr-2"
         type="button"
         aria-label="Apply filters"
         onClick={() => submitFilters()}
@@ -134,7 +134,7 @@ const Filters: React.FC<Props> = ({ filters, onSubmit }) => {
         Apply
       </button>
       <button
-        className="bg-rose-600 text-white px-2 rounded"
+        className="bg-rose-600 text-white py-1 px-2 rounded"
         type="button"
         aria-label="Reset filters"
         onClick={resetFilters}

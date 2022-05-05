@@ -38,7 +38,7 @@ const SearchPage: React.FC = () => {
   return (
     <LoadingHandler isLoading={isLoading} isError={isError}>
       { sortedProducts && (
-        <SectionElement>
+        <SectionElement className="px-2">
           <Heading level={1}>
             <span className="text-4xl cap">Search results</span>
           </Heading>
@@ -46,6 +46,9 @@ const SearchPage: React.FC = () => {
             <Filters filters={myFilters} onSubmit={setAppliedFilters} />
           </div>
           <ProductsDisplayer products={sortedProducts} />
+          { !sortedProducts.length && (
+            <p className="font-bold text-2xl text-rose-900 text-center bg-white rounded-lg p-4 shadow">No products found</p>
+          ) }
         </SectionElement>
       ) }
     </LoadingHandler>

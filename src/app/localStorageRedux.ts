@@ -1,6 +1,8 @@
 import { addProduct } from '../services/cart';
 import { CartProduct, User } from '../services/types';
-import { addUser, login } from '../services/user';
+import {
+  addUser, clearError, clearSuccess, login,
+} from '../services/user';
 import { store } from './store';
 
 const debounceTimeout = 1000;
@@ -40,6 +42,8 @@ const hidrateStore = (myStore: typeof store) => {
   });
 
   if (authUser) myStore.dispatch(login(authUser));
+  myStore.dispatch(clearSuccess());
+  myStore.dispatch(clearError());
 };
 
 const localStorageRedux = (myStore: typeof store) => {
