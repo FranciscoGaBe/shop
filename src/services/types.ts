@@ -10,3 +10,13 @@ export interface Product {
     count: number
   }
 }
+
+export interface User {
+  name: string,
+  password: string
+}
+
+export interface CartProduct {
+  productId: number,
+  quantity: number
+}
