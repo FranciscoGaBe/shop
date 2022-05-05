@@ -1,5 +1,5 @@
 import {
-  faBars, faCartShopping, faChevronDown, faMagnifyingGlass, faTimes, faUser,
+  faBars, faCartShopping, faChevronDown, faMagnifyingGlass, faTimes, faUser, faUserSlash,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { AnimatePresence, motion, useAnimation } from 'framer-motion';
@@ -11,6 +11,7 @@ import { useAppSelector } from '../../app/hooks';
 import logo from '../../logo.svg';
 import { selectProducts } from '../../services/cart';
 import { useGetCategoriesQuery } from '../../services/shop';
+import { selectAuthUser } from '../../services/user';
 
 interface NavElement {
   text: string,
@@ -222,6 +223,35 @@ const HeaderCart: React.FC = () => {
   );
 };
 
+const HeaderUser: React.FC = () => {
+  const user = useAppSelector(selectAuthUser);
+
+  return (
+    <>
+      <NavLink
+        to={user ? '/account' : '/signin'}
+        className={({ isActive }) => `
+          transition-all duration-200 ease-in-out
+          text-white border-2 border-white rounded-full h-10 w-10
+          flex items-center justify-center
+          shadow shadow-rose-800 md:hidden 
+          ${isActive ? 'bg-rose-800' : 'bg-rose-700'}
+        `}
+      >
+        <FontAwesomeIcon icon={user ? faUser : faUserSlash} />
+      </NavLink>
+      <p className="hidden md:block text-white">
+        <span className="mr-2">Welcome,</span>
+        <b>
+          <Link to={user ? '/account' : '/signin'}>
+            { user ? user.name : 'Login' }
+          </Link>
+        </b>
+      </p>
+    </>
+  );
+};
+
 const MainLayoutHeader: React.FC = () => {
   const [showMenu, setShowMenu] = useState(false);
   const { data } = useGetCategoriesQuery();
@@ -293,20 +323,7 @@ const MainLayoutHeader: React.FC = () => {
         </Link>
       </div>
       <div className="w-1/2 flex items-center justify-end gap-4 pr-4 pl-10 md:pr-8 md:pl-16">
-        <button
-          type="button"
-          className={[
-            'text-white border-2 border-white rounded-full h-10 w-10',
-            'shadow shadow-rose-800 md:hidden',
-          ].join(' ')}
-        >
-          <FontAwesomeIcon icon={faUser} />
-        </button>
-        <p className="hidden md:block text-white">
-          Welcome,
-          {' '}
-          <b>User</b>
-        </p>
+        <HeaderUser />
         <HeaderCart />
       </div>
     </header>
