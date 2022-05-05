@@ -38,7 +38,7 @@ const SearchPage: React.FC = () => {
   return (
     <LoadingHandler isLoading={isLoading} isError={isError}>
       { sortedProducts && (
-        <SectionElement>
+        <SectionElement className="px-2">
           <Heading level={1}>
             <span className="text-4xl cap">Search results</span>
           </Heading>
