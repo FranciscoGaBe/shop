@@ -287,7 +287,7 @@ const MainLayoutHeader: React.FC = () => {
         <div
           className={[
             'transition-all duration-300 ease-in-out w-full',
-            'inset-0 fixed md:static bg-rose-700 md:bg-transparent',
+            'inset-0 fixed md:static bg-rose-700 md:bg-transparent z-20',
             showMenu ? 'opacity-100' : 'opacity-0 md:opacity-100 pointer-events-none md:pointer-events-auto',
           ].join(' ')}
         >
