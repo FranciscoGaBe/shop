@@ -51,8 +51,8 @@ const SigninPage: React.FC = () => {
       >
         <Heading level={1}>Sign In</Heading>
         <div className="mb-8 mt-4 px-2">
-          <FormInput type="text" value={name} name="Name" onInput={handleInput(setName)} />
-          <FormInput type="text" value={password} name="Password" onInput={handleInput(setPassword)} />
+          <FormInput value={name} name="Name" onInput={handleInput(setName)} />
+          <FormInput type="password" value={password} name="Password" onInput={handleInput(setPassword)} />
         </div>
         <div className="relative">
           <AnimatePresence>
