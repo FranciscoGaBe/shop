@@ -8,21 +8,26 @@ import FormInput from '../components/FormInput';
 import Heading from '../components/Heading';
 import {
   addUser,
-  clearError, clearSuccess, selectUserError, selectUserSuccess,
+  clearError, clearSuccess, selectAuthUser, selectUserError, selectUserSuccess,
 } from '../services/user';
 
 const SignupPage: React.FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const error = useAppSelector(selectUserError);
   const success = useAppSelector(selectUserSuccess);
-  const navigate = useNavigate();
+  const authUser = useAppSelector(selectAuthUser);
 
   useEffect(() => {
     dispatch(clearError());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (authUser) navigate('/');
+  }, [authUser, navigate]);
 
   useEffect(() => {
     if (!success) return;
