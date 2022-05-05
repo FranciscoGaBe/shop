@@ -2,6 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
 import { User } from './types';
 
+interface ChangePasswordPayload {
+  oldPassword: string,
+  newPassword: string,
+  passwordConfirm: string
+}
+
 interface UserState {
   authUser: User | undefined,
   users: User[],
@@ -50,6 +56,34 @@ export const userSlice = createSlice({
       state.success = true;
       state.error = '';
     },
+    changePassword: (state, action: PayloadAction<ChangePasswordPayload>) => {
+      const { oldPassword, newPassword, passwordConfirm } = action.payload;
+
+      if (!state.authUser) return;
+
+      if (oldPassword !== state.authUser.password) {
+        state.error = 'Incorrect password';
+        return;
+      }
+      if (newPassword.length < 6) {
+        state.error = 'Password must be at least 6 characters';
+        return;
+      }
+      if (newPassword.length > 32) {
+        state.error = 'Password can\'t exceed 32 characters';
+        return;
+      }
+      if (newPassword !== passwordConfirm) {
+        state.error = 'Passwords don\'t match';
+        return;
+      }
+
+      const user = state.users.find(({ name }) => name === (state.authUser as User).name);
+      if (user) user.password = newPassword;
+      state.authUser.password = newPassword;
+      state.success = true;
+      state.error = '';
+    },
     login: (state, action: PayloadAction<User>) => {
       const { name, password } = action.payload;
       const user = state.users.find(({ name: username }) => username === name);
@@ -79,7 +113,7 @@ export const userSlice = createSlice({
 });
 
 export const {
-  login, logout, clearError, clearSuccess, addUser,
+  login, logout, clearError, clearSuccess, addUser, changePassword,
 } = userSlice.actions;
 
 export const selectUsers = (state: RootState) => state.user.users;
