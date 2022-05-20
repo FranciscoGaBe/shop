@@ -61,4 +61,11 @@ describe('CartItem', () => {
     );
     expect(store.getState().cart.products).toHaveLength(0);
   });
+  it('only accepts numbers as input for the quantity field', () => {
+    const input = screen.getByRole<HTMLInputElement>('textbox');
+    expect(input.value).toBe(product.quantity.toString());
+    input.value = '10yrtyrty';
+    fireEvent.input(input);
+    expect(store.getState().cart.products[0].quantity).toBe(10);
+  });
 });

@@ -24,7 +24,8 @@ const CartItem: React.FC<Props> = ({ item }) => {
   };
 
   const handleInput = (event: React.FormEvent) => {
-    const value = +(event.target as HTMLInputElement).value;
+    const match = (event.target as HTMLInputElement).value.match(/\d+/);
+    const value = match ? +match[0] : 0;
     dispath(changeProductQuantity({ productId: id, quantity: value }));
   };
 
